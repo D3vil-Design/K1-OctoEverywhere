@@ -14,32 +14,23 @@ Firmware updates will most likely completely overwrite these changes.
 
 ## Installation
 
-1. Edit /usr/bin/virtualenv with `vi`. The first line should be changed from `#!/usr/bin/python` to `#!/usr/bin/python3`
-
-2. Make a directory named `octoeverywhere-logs` in `/usr/data/`
-
-3. Make a dummy systemd service (even though this board doesn't use it, just for the script to detect with minimal changes) in `/etc/systemd/system/moonraker.service` 
-
-4. Add this line: `Environment=MOONRAKER_CONF=/usr/data/printer_data/config/moonraker.conf` to the contents of the created moonraker.service abov
-
-5. Clone this repo into `/usr/data`
-
-6. Rename the cloned folder to `octoeverywhere`
-
-7. `cd` into `octoeverywhere` and run `./install.sh`
-
-8. The script will hang on `Waiting for the plugin to produce a printer id...` - go ahead and respond `n` when it asks you if you want to keep waiting.
-
-9. Copy the `startup_script.sh` from this repo into `/usr/data/`
-
-10. Run the startup script `./startup_script.sh` (might need to make it executable `chmod 777 startup_script.sh`)
-
-11. Click the link that the script echos to finish setup on Octoeverywhere's website
-
-12. You're linked to Octoeverywhere! Last step is to make sure we start this service on startup. Copy `S99octoeverywhere` from this repo to `/etc/init.d/S99octoeverywhere`
-
-13. Make sure that the script has the correct permissions: `chmod 755 /etc/init.d/S99octoeverywhere`
-
-13. Restart your printer
-
-14. Profit! Enjoy :) 
+```sh
+sed -i 's/#!\/usr\/bin\/python$/#!\/usr\/bin\/python3/g' /usr/bin/virtualenv
+mkdir -p /usr/data/octoeverywhere-logs
+mkdir -p /etc/systemd/system/
+echo "Environment=MOONRAKER_CONF=/usr/data/printer_data/config/moonraker.conf" > /etc/systemd/system/moonraker.service
+cd /usr/data
+git clone https://github.com/D3vil-Design/K1-OctoEverywhere.git octoeverywhere
+cd octoeverywhere
+./install.sh
+# The script will hang on `Waiting for the plugin to produce a printer id...` - go ahead and respond `n` when it asks you if you want to keep waiting.
+cp startup_script.sh /usr/data/startup_script.sh
+chmod +x /usr/data/startup_script.sh
+/usr/data/startup_script.sh
+# Click the link that the script echos to finish setup on Octoeverywhere's website
+# After your Browser tells you "Secure Printer Link Established", close the tab and CTRL + C couple of times in console to exit the startup_script.sh
+cp S99octoeverywhere /etc/init.d/S99octoeverywhere
+chmod +x /etc/init.d/S99octoeverywhere
+/etc/init.d/S99octoeverywhere restart
+```
+Profit, enjoy! :)
