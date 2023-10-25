@@ -23,12 +23,16 @@ cd /usr/data
 git clone https://github.com/D3vil-Design/K1-OctoEverywhere.git octoeverywhere
 cd octoeverywhere
 ./install.sh
-# The script will hang on `Waiting for the plugin to produce a printer id...` - go ahead and respond `n` when it asks you if you want to keep waiting.
+```
+The script will hang on `Waiting for the plugin to produce a printer id...` - go ahead and respond `n` when it asks you if you want to keep waiting.
+```sh
 cp startup_script.sh /usr/data/startup_script.sh
 chmod +x /usr/data/startup_script.sh
 /usr/data/startup_script.sh
-# Click the link that the script echos to finish setup on Octoeverywhere's website
-# After your Browser tells you "Secure Printer Link Established", close the tab and CTRL + C couple of times in console to exit the startup_script.sh
+```
+Click the link that the script echos to finish setup on Octoeverywhere's website
+After your Browser tells you "Secure Printer Link Established", close the tab and CTRL + C couple of times in console to exit the startup_script.sh
+```sh
 cp S99octoeverywhere /etc/init.d/S99octoeverywhere
 chmod +x /etc/init.d/S99octoeverywhere
 /etc/init.d/S99octoeverywhere restart
